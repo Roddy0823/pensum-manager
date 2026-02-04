@@ -121,13 +121,9 @@ export default function AuthPage() {
       } else {
         const { error } = await signUp(email, password, fullName);
         if (error) {
-          let message = 'Error al crear cuenta';
-          if (error.message.includes('already registered')) {
-            message = 'Este email ya está registrado. Intenta iniciar sesión.';
-          }
           toast({
-            title: 'Error',
-            description: message,
+            title: 'Error al crear cuenta',
+            description: error.message,
             variant: 'destructive'
           });
         } else {

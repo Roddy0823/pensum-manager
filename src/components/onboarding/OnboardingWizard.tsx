@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -44,8 +44,14 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
   const [programId, setProgramId] = useState<string | null>(null);
 
   // Step 2: Semester tabs
-  const [activeSemester, setActiveSemester] = useState(1);
-  const [localSubjects, setLocalSubjects] = useState<LocalSubject[]>([]);
+  const [activeSemester, setActiveSemester] = useState(() => {
+    const saved = localStorage.getItem('onboarding_active_semester');
+    return saved ? parseInt(saved) : 1;
+  });
+  const [localSubjects, setLocalSubjects] = useState<LocalSubject[]>(() => {
+    const saved = localStorage.getItem('onboarding_subjects');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // Step 3: Persisted subjects
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -84,6 +90,24 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
     setLocalSubjects(prev => [...prev, newSubject]);
   };
 
+  // Persist subjects whenever they change
+  useEffect(() => {
+    localStorage.setItem('onboarding_subjects', JSON.stringify(localSubjects));
+  }, [localSubjects]);
+
+  // Persist active semester
+  useEffect(() => {
+    localStorage.setItem('onboarding_active_semester', activeSemester.toString());
+  }, [activeSemester]);
+
+  // Restore program ID if exists
+  useEffect(() => {
+    const savedProgramId = localStorage.getItem('onboarding_program_id');
+    if (savedProgramId && !programId) {
+      setProgramId(savedProgramId);
+    }
+  }, [programId]);
+
   // Update local subject
   const handleUpdateLocalSubject = (id: string, field: 'name' | 'credits', value: string | number) => {
     setLocalSubjects(prev => prev.map(s =>
@@ -113,6 +137,8 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
     if (program) {
       setProgramId(program.id);
       setStep(2);
+      // Save program ID
+      localStorage.setItem('onboarding_program_id', program.id);
     } else {
       toast({
         title: 'Error',
@@ -196,6 +222,11 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
     setLoading(true);
     await refetch();
     setLoading(false);
+    setLoading(false);
+    // Clear storage on completion
+    localStorage.removeItem('onboarding_subjects');
+    localStorage.removeItem('onboarding_active_semester');
+    localStorage.removeItem('onboarding_program_id');
     onComplete();
   };
 

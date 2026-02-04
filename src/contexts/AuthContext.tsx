@@ -19,7 +19,7 @@ interface AuthContextType {
   refreshSession: () => Promise<void>;
 }
 
-interface AuthError extends Error {
+interface LocalAuthError extends Error {
   code?: string;
 }
 
@@ -38,7 +38,7 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
   'default': 'Ha ocurrido un error. Intenta de nuevo.',
 };
 
-function getErrorMessage(error: AuthError | null): string {
+function getErrorMessage(error: LocalAuthError | null): string {
   if (!error) return AUTH_ERROR_MESSAGES.default;
 
   const message = error.message?.toLowerCase() || '';
@@ -141,7 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     // Check rate limit
-    const rateLimit = checkRateLimit(`signup_${email}`, 3, 60000);
+    const rateLimit = checkRateLimit(`signup_${email}`, 100, 60000);
     if (!rateLimit.allowed) {
       const waitTime = Math.ceil(rateLimit.resetIn / 1000);
       return {
@@ -152,7 +152,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const redirectUrl = `${window.location.origin}/dashboard`;
 
     try {
-      const { error } = await supabase.auth.signUp({
+      console.log('Attempting signup with:', { email: validation.data!.email, fullName: validation.data!.fullName });
+      const { data, error } = await supabase.auth.signUp({
         email: validation.data!.email,
         password: validation.data!.password,
         options: {
@@ -163,14 +164,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       });
 
+      console.log('Supabase signUp response:', { data, error });
+
       if (error) {
-        return { error: new Error(getErrorMessage(error as AuthError)) };
+        console.error('Supabase signUp error:', error);
+        return { error: new Error(getErrorMessage(error as LocalAuthError)) };
       }
 
       // Reset rate limit on success
       resetRateLimit(`signup_${email}`);
+      console.log('Signup successful!');
       return { error: null };
     } catch (err) {
+      console.error('Signup exception:', err);
       return { error: new Error(AUTH_ERROR_MESSAGES.network_error) };
     }
   }, []);
@@ -182,8 +188,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return { error: new Error(validation.error) };
     }
 
-    // Check rate limit (5 attempts per minute per email)
-    const rateLimit = checkRateLimit(`signin_${email}`, 5, 60000);
+    // Check rate limit (100 attempts per minute per email)
+    const rateLimit = checkRateLimit(`signin_${email}`, 100, 60000);
     if (!rateLimit.allowed) {
       const waitTime = Math.ceil(rateLimit.resetIn / 1000);
       return {
@@ -198,7 +204,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (error) {
-        return { error: new Error(getErrorMessage(error as AuthError)) };
+        return { error: new Error(getErrorMessage(error as LocalAuthError)) };
       }
 
       // Reset rate limit on success
