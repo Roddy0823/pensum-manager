@@ -1,0 +1,23 @@
+{
+    "name": "Pensum Manager",
+    "short_name": "Pensum",
+    "description": "Gestiona tu trayectoria académica universitaria",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0b",
+    "theme_color": "#8b5cf6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "education",
+        "productivity"
+    ],
+    "lang": "es"
+}
