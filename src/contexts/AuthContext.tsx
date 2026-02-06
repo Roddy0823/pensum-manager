@@ -173,6 +173,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Reset rate limit on success
       resetRateLimit(`signup_${email}`);
+
+      // Clear any onboarding data from previous sessions
+      localStorage.removeItem('onboarding_subjects');
+      localStorage.removeItem('onboarding_active_semester');
+      localStorage.removeItem('onboarding_program_id');
+
       console.log('Signup successful!');
       return { error: null };
     } catch (err) {
@@ -221,6 +227,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Error signing out:', error);
     } finally {
+      // Clear onboarding data to prevent data leakage between users
+      localStorage.removeItem('onboarding_subjects');
+      localStorage.removeItem('onboarding_active_semester');
+      localStorage.removeItem('onboarding_program_id');
+
       setUser(null);
       setSession(null);
     }

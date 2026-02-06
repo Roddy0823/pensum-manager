@@ -11,15 +11,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, Loader2, Edit2, BookOpen, Link2, GraduationCap, Sparkles } from 'lucide-react';
+import { Plus, Trash2, Loader2, Edit2, BookOpen, Link2, GraduationCap, PenLine } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import type { Subject } from '@/types/database';
 
 export default function EditPensum() {
-  const { 
-    program, 
-    subjects, 
+  const {
+    program,
+    subjects,
     prerequisites,
     loading,
     addSubject,
@@ -48,7 +48,7 @@ export default function EditPensum() {
   }
 
   const subjectsSorted = [...subjects].sort((a, b) => a.semester - b.semester);
-  
+
   // Group subjects by semester for display
   const subjectsBySemester = subjects.reduce((acc, subject) => {
     if (!acc[subject.semester]) acc[subject.semester] = [];
@@ -128,7 +128,7 @@ export default function EditPensum() {
           <div className="space-y-1">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-glow">
-                <Sparkles className="h-5 w-5 text-primary-foreground" />
+                <PenLine className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold">Editar Pensum</h1>
@@ -150,8 +150,8 @@ export default function EditPensum() {
         {/* Tabs */}
         <Tabs defaultValue="subjects" className="w-full">
           <TabsList className="grid w-full grid-cols-2 h-12 p-1 bg-muted/50">
-            <TabsTrigger 
-              value="subjects" 
+            <TabsTrigger
+              value="subjects"
               className="h-10 data-[state=active]:bg-background data-[state=active]:shadow-sm flex items-center gap-2"
             >
               <BookOpen className="h-4 w-4" />
@@ -160,8 +160,8 @@ export default function EditPensum() {
                 {subjects.length}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger 
-              value="prerequisites" 
+            <TabsTrigger
+              value="prerequisites"
               className="h-10 data-[state=active]:bg-background data-[state=active]:shadow-sm flex items-center gap-2"
             >
               <Link2 className="h-4 w-4" />
@@ -201,8 +201,8 @@ export default function EditPensum() {
                   </div>
                   <div className="sm:col-span-3 space-y-2">
                     <Label className="text-sm">Semestre</Label>
-                    <Select 
-                      value={newSubject.semester} 
+                    <Select
+                      value={newSubject.semester}
                       onValueChange={(v) => setNewSubject(prev => ({ ...prev, semester: v }))}
                     >
                       <SelectTrigger className="h-11">
@@ -219,8 +219,8 @@ export default function EditPensum() {
                   </div>
                   <div className="sm:col-span-3 space-y-2">
                     <Label className="text-sm">Créditos</Label>
-                    <Select 
-                      value={newSubject.credits} 
+                    <Select
+                      value={newSubject.credits}
                       onValueChange={(v) => setNewSubject(prev => ({ ...prev, credits: v }))}
                     >
                       <SelectTrigger className="h-11">
@@ -279,8 +279,8 @@ export default function EditPensum() {
                       <CardContent className="pt-0">
                         <div className="grid gap-2">
                           {subjectsBySemester[semester].map(subject => (
-                            <div 
-                              key={subject.id} 
+                            <div
+                              key={subject.id}
                               className={cn(
                                 "flex items-center justify-between p-3 rounded-xl",
                                 "bg-muted/30 hover:bg-muted/50 transition-colors group"
@@ -303,9 +303,9 @@ export default function EditPensum() {
                                   if (!open) setEditingSubject(null);
                                 }}>
                                   <DialogTrigger asChild>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="icon" 
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
                                       className="h-8 w-8"
                                       onClick={() => setEditingSubject({ ...subject })}
                                     >
@@ -329,8 +329,8 @@ export default function EditPensum() {
                                         <div className="grid grid-cols-2 gap-4">
                                           <div className="space-y-2">
                                             <Label>Semestre</Label>
-                                            <Select 
-                                              value={String(editingSubject.semester)} 
+                                            <Select
+                                              value={String(editingSubject.semester)}
                                               onValueChange={(v) => setEditingSubject(prev => prev ? { ...prev, semester: parseInt(v) } : null)}
                                             >
                                               <SelectTrigger className="h-11">
@@ -347,8 +347,8 @@ export default function EditPensum() {
                                           </div>
                                           <div className="space-y-2">
                                             <Label>Créditos</Label>
-                                            <Select 
-                                              value={String(editingSubject.credits)} 
+                                            <Select
+                                              value={String(editingSubject.credits)}
                                               onValueChange={(v) => setEditingSubject(prev => prev ? { ...prev, credits: parseInt(v) } : null)}
                                             >
                                               <SelectTrigger className="h-11">
@@ -375,12 +375,12 @@ export default function EditPensum() {
                                     </DialogFooter>
                                   </DialogContent>
                                 </Dialog>
-                                
+
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="icon" 
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
                                       className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                                     >
                                       <Trash2 className="h-4 w-4" />
@@ -395,7 +395,7 @@ export default function EditPensum() {
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                       <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                      <AlertDialogAction 
+                                      <AlertDialogAction
                                         onClick={() => handleDeleteSubject(subject)}
                                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                       >

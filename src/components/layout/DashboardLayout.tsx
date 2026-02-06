@@ -4,6 +4,7 @@ import { GraduationCap, LogOut, Settings, Menu, X, LayoutGrid, Edit3 } from 'luc
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   Tooltip,
   TooltipContent,
@@ -58,6 +59,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
 
           <div className="flex items-center gap-1">
+            <ThemeToggle />
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link to="/settings">
@@ -68,7 +70,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </TooltipTrigger>
               <TooltipContent>Configuración</TooltipContent>
             </Tooltip>
-            
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" onClick={signOut} className="h-9 w-9 text-muted-foreground hover:text-foreground">
@@ -77,10 +79,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </TooltipTrigger>
               <TooltipContent>Cerrar sesión</TooltipContent>
             </Tooltip>
-            
-            <Button 
-              variant="ghost" 
-              size="icon" 
+
+            <Button
+              variant="ghost"
+              size="icon"
               className="md:hidden h-9 w-9"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >

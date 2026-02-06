@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import { Navigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,13 +18,15 @@ const authSchema = z.object({
 });
 
 export default function AuthPage() {
+  const [searchParams] = useSearchParams();
   const { user, loading: authLoading, signIn, signUp } = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(() => searchParams.get('register') !== 'true');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
   // Load saved credentials only if "Remember Me" was checked previously
@@ -49,6 +51,7 @@ export default function AuthPage() {
     setIsLogin(!isLogin);
     setEmail('');
     setPassword('');
+    setConfirmPassword('');
     setFullName('');
     setRememberMe(false);
   };
@@ -89,6 +92,16 @@ export default function AuthPage() {
         });
         return;
       }
+    }
+
+    // Validar que las contraseñas coincidan (solo en registro)
+    if (!isLogin && password !== confirmPassword) {
+      toast({
+        title: 'Error de validación',
+        description: 'Las contraseñas no coinciden',
+        variant: 'destructive'
+      });
+      return;
     }
 
     setLoading(true);
@@ -254,6 +267,30 @@ export default function AuthPage() {
                 </button>
               </div>
             </div>
+
+            {/* Confirm Password field - only for register */}
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="text-sm font-medium">
+                  Confirmar Contraseña
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="confirmPassword"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    disabled={loading}
+                    autoComplete="new-password"
+                    className="h-12 pl-10 bg-background/50 border-border/50 focus:border-primary/50 focus:bg-background transition-all"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Remember me checkbox - only for login */}
             {isLogin && (

@@ -1,13 +1,13 @@
 import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import {
   GraduationCap,
   ArrowRight,
   CheckCircle,
   Lock,
   BarChart3,
-  Sparkles,
   BookOpen,
   Users,
   Zap,
@@ -15,7 +15,11 @@ import {
   Cloud,
   TrendingUp,
   Target,
-  Clock
+  Clock,
+  Smartphone,
+  Share2,
+  PlusSquare,
+  Download
 } from 'lucide-react';
 
 export default function Index() {
@@ -137,15 +141,10 @@ export default function Index() {
               <span className="text-[10px] text-muted-foreground -mt-1 hidden sm:block">Gestión Académica Inteligente</span>
             </div>
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link to="/auth">
-              <Button variant="ghost" className="hidden sm:inline-flex">Iniciar Sesión</Button>
-            </Link>
-            <Link to="/auth">
-              <Button className="gap-2 bg-gradient-to-r from-primary to-purple-500 hover:opacity-90 shadow-lg shadow-primary/25">
-                Comenzar Gratis
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+              <Button variant="ghost">Iniciar Sesión</Button>
             </Link>
           </div>
         </div>
@@ -160,7 +159,7 @@ export default function Index() {
           <div className="max-w-4xl mx-auto text-center">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-purple-500/20 border border-primary/30 text-primary text-sm font-medium mb-8 animate-fade-in">
-              <Sparkles className="h-4 w-4" />
+              <GraduationCap className="h-4 w-4" />
               <span>La forma inteligente de gestionar tu carrera</span>
             </div>
 
@@ -177,11 +176,11 @@ export default function Index() {
               <span className="text-foreground font-medium"> Todo en un solo lugar.</span>
             </p>
 
-            {/* CTAs */}
+            {/* CTA */}
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up stagger-2">
-              <Link to="/auth">
+              <Link to="/auth?register=true">
                 <Button size="lg" className="w-full sm:w-auto gap-2 h-14 px-8 text-base bg-gradient-to-r from-primary to-purple-500 hover:opacity-90 shadow-xl shadow-primary/25 transition-all duration-300 hover:shadow-primary/40 hover:scale-105">
-                  <Sparkles className="h-5 w-5" />
+                  <GraduationCap className="h-5 w-5" />
                   Comenzar Gratis
                   <ArrowRight className="h-5 w-5" />
                 </Button>
@@ -192,11 +191,11 @@ export default function Index() {
             <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground animate-fade-in-up stagger-3">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-emerald-400" />
-                <span>Sin tarjeta de crédito</span>
+                <span>100% gratuito</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-emerald-400" />
-                <span>100% gratuito</span>
+                <span>Fácil de usar</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-emerald-400" />
@@ -268,47 +267,142 @@ export default function Index() {
       </section>
 
       {/* How it works Section */}
-      <section className="py-24 md:py-32 border-t border-border/50 bg-gradient-to-b from-card/50 to-background">
+      <section className="py-24 md:py-32 border-t border-border/50">
         <div className="container">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-medium mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 text-sm font-medium mb-4">
               <Clock className="h-4 w-4" />
               Empieza en minutos
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-              ¿Cómo <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">funciona</span>?
+              ¿Cómo <span className="bg-gradient-to-r from-emerald-500 to-cyan-500 bg-clip-text text-transparent">funciona</span>?
             </h2>
             <p className="text-muted-foreground text-lg">
               Tres pasos simples para transformar cómo gestionas tu carrera universitaria.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className="relative animate-fade-in-up"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                {/* Connector line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-12 left-[60%] w-full h-px bg-gradient-to-r from-primary/50 to-transparent" />
-                )}
-
-                <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 p-8 hover:bg-card transition-all duration-300 hover:shadow-lg">
-                  <div className="absolute -top-4 left-8 bg-gradient-to-r from-primary to-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    Paso {step.step}
+          <div className="max-w-4xl mx-auto">
+            <div className="grid gap-6">
+              {steps.map((step, index) => (
+                <div
+                  key={index}
+                  className="group relative flex gap-6 items-start p-6 rounded-2xl bg-card/50 border border-border/50 hover:bg-card hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 opacity-0 translate-y-8 animate-[fadeSlideUp_0.6s_ease-out_forwards]"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="flex-shrink-0">
+                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/25 group-hover:scale-110 group-hover:shadow-primary/40 transition-all duration-300">
+                      {step.step}
+                    </div>
+                  </div>
+                  <div className="flex-1 pt-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <step.icon className="h-5 w-5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                      <h3 className="text-xl font-semibold group-hover:text-primary transition-colors duration-300">{step.title}</h3>
+                    </div>
+                    <p className="text-muted-foreground">{step.description}</p>
                   </div>
 
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 mt-2">
-                    <step.icon className="h-6 w-6 text-primary" />
-                  </div>
-
-                  <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-                  <p className="text-muted-foreground">{step.description}</p>
+                  {/* Hover glow effect */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/0 via-primary/5 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Install PWA Section */}
+      <section className="py-24 md:py-32 border-t border-border/50">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-sm font-medium mb-4">
+                <Smartphone className="h-4 w-4" />
+                <span>Instala la App</span>
               </div>
-            ))}
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                Úsala como <span className="gradient-text">aplicación nativa</span>
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Agrega Pensum Manager a la pantalla de inicio de tu celular para acceder rápidamente, sin abrir el navegador.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* iOS Instructions */}
+              <div className="bg-card rounded-2xl border border-border/50 p-6 hover:border-border transition-colors">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center">
+                    <svg className="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">iPhone / iPad</h3>
+                    <p className="text-sm text-muted-foreground">Safari</p>
+                  </div>
+                </div>
+                <ol className="space-y-4">
+                  <li className="flex gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">1</div>
+                    <div className="text-sm pt-0.5">
+                      <p>Abre <strong className="text-foreground">pensum-manager.netlify.app</strong> en Safari</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">2</div>
+                    <div className="text-sm pt-0.5 flex items-center gap-2">
+                      <p>Toca el botón <strong className="text-foreground">Compartir</strong></p>
+                      <Share2 className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </li>
+                  <li className="flex gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">3</div>
+                    <div className="text-sm pt-0.5 flex items-center gap-2">
+                      <p>Selecciona <strong className="text-foreground">"Añadir a pantalla de inicio"</strong></p>
+                      <PlusSquare className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              {/* Android Instructions */}
+              <div className="bg-card rounded-2xl border border-border/50 p-6 hover:border-border transition-colors">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center">
+                    <svg className="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.77 8.35 12.93 8 11 8c-1.93 0-3.77.35-5.47.91L3.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L4.4 9.48C1.91 11.03 0 13.71 0 17h22c0-3.29-1.91-5.97-4.4-7.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg">Android</h3>
+                    <p className="text-sm text-muted-foreground">Chrome</p>
+                  </div>
+                </div>
+                <ol className="space-y-4">
+                  <li className="flex gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">1</div>
+                    <div className="text-sm pt-0.5">
+                      <p>Abre <strong className="text-foreground">pensum-manager.netlify.app</strong> en Chrome</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">2</div>
+                    <div className="text-sm pt-0.5">
+                      <p>Toca el menú <strong className="text-foreground">⋮</strong> (tres puntos)</p>
+                    </div>
+                  </li>
+                  <li className="flex gap-3">
+                    <div className="flex-shrink-0 h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">3</div>
+                    <div className="text-sm pt-0.5 flex items-center gap-2">
+                      <p>Selecciona <strong className="text-foreground">"Instalar app"</strong> o <strong className="text-foreground">"Añadir a inicio"</strong></p>
+                      <Download className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -316,17 +410,13 @@ export default function Index() {
       {/* Final CTA Section */}
       <section className="py-24 md:py-32 border-t border-border/50">
         <div className="container">
-          <div className="relative rounded-3xl overflow-hidden">
-            {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/20 to-cyan-500/20" />
-            <div className="absolute inset-0 bg-hero-pattern opacity-20" />
-
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary/20 via-purple-500/15 to-cyan-500/10 border border-border/50">
             {/* Glowing orbs */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/30 rounded-full blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl" />
 
             <div className="relative px-8 py-16 md:px-16 md:py-24 text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-sm font-medium mb-6 border border-white/20">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 border border-primary/20">
                 <TrendingUp className="h-4 w-4" />
                 <span>Únete ahora</span>
               </div>
@@ -339,7 +429,7 @@ export default function Index() {
               </p>
 
               <Link to="/auth">
-                <Button size="lg" className="h-14 px-10 text-base gap-2 bg-white text-background hover:bg-white/90 shadow-2xl transition-all duration-300 hover:scale-105">
+                <Button size="lg" className="h-14 px-10 text-base gap-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105">
                   <GraduationCap className="h-5 w-5" />
                   Crear Cuenta Gratis
                   <ArrowRight className="h-5 w-5" />
@@ -347,7 +437,7 @@ export default function Index() {
               </Link>
 
               <p className="mt-4 text-sm text-muted-foreground">
-                Sin tarjeta de crédito • Configuración en 2 minutos
+                100% gratuito • Configuración en 2 minutos
               </p>
             </div>
           </div>
@@ -369,7 +459,7 @@ export default function Index() {
             </div>
 
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Pensum Manager. Todos los derechos reservados. Dedicado a mi hermana Lina Marcela
+              © {new Date().getFullYear()} Pensum Manager. Todos los derechos reservados. Dedicado a mi hermana Lina Carvajal
             </p>
           </div>
         </div>

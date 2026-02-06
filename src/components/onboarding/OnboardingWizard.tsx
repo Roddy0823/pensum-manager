@@ -12,7 +12,7 @@ import {
   Check,
   Plus,
   Trash2,
-  Sparkles,
+  ThumbsUp,
   Trophy,
   Calendar,
   Target
@@ -524,7 +524,7 @@ export default function OnboardingWizard({ onComplete }: OnboardingWizardProps) 
             <div className="relative mx-auto w-24 h-24">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-purple-500/20 rounded-full animate-pulse" />
               <div className="absolute inset-2 bg-gradient-to-br from-primary to-purple-500 rounded-full flex items-center justify-center shadow-glow">
-                <Sparkles className="h-10 w-10 text-white" />
+                <ThumbsUp className="h-10 w-10 text-white" />
               </div>
             </div>
 
