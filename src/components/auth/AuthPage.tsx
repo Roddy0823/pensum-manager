@@ -29,7 +29,6 @@ export default function AuthPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  // Load saved credentials only if "Remember Me" was checked previously
   useEffect(() => {
     const savedData = localStorage.getItem(REMEMBER_ME_KEY);
     if (savedData) {
@@ -45,6 +44,16 @@ export default function AuthPage() {
       }
     }
   }, []);
+
+  // Sync state with URL params
+  useEffect(() => {
+    if (searchParams.get('register') === 'true') {
+      setIsLogin(false);
+    } else if (searchParams.has('register') && searchParams.get('register') !== 'true') {
+      // creating explicit reset only if param exists but is not true
+      setIsLogin(true);
+    }
+  }, [searchParams]);
 
   // Clear fields when switching between login and register
   const handleToggleMode = () => {

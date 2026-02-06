@@ -428,7 +428,7 @@ export default function Index() {
                 Comienza gratis hoy y únete a estudiantes que ya gestionan su trayectoria académica de forma inteligente.
               </p>
 
-              <Link to="/auth">
+              <Link to="/auth?register=true">
                 <Button size="lg" className="h-14 px-10 text-base gap-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105">
                   <GraduationCap className="h-5 w-5" />
                   Crear Cuenta Gratis

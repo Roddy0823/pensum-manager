@@ -1,6 +1,6 @@
 {
     "name": "Pensum Manager",
-    "short_name": "Pensum",
+    "short_name": "Pensum Manager",
     "description": "Gestiona tu trayectoria académica universitaria",
     "start_url": "/",
     "display": "standalone",
